@@ -199,6 +199,7 @@ DRY_RUN = True
 
 ```
 
+
 **Output**:
 
 ```arduino
@@ -232,3 +233,16 @@ Subtitle Track 4 marked as not default.
 Done:
 
 ```
+
+### **Already Processed File**
+
+If the script encounters a file that has already been processed, the output would look like this:
+
+```
+-------------------------------
+Processing File: /path/to/your/media/Anime/Season 01/Episode01.mkv
+-------------------------------
+File has already been processed. Skipping...
+```
+
+This message appears under the file header and clearly indicates that the script is skipping the file because it is listed in the processed log. This ensures efficiency by preventing redundant work.
