@@ -5,7 +5,7 @@ from datetime import datetime
 from tqdm import tqdm
 
 # Configuration (Customizable section)
-DRY_RUN = False  # Set to True for dry-run mode
+DRY_RUN = True  # Set to True for dry-run mode
 INPUT_DIRECTORY = "/path/to/input/directory"  # Define your input directory
 LOG_DIRECTORY = "/path/to/log/directory"  # Define your log directory
 LOG_FILE = os.path.join(LOG_DIRECTORY, "mkv_optimizer.log")  # Log file path
@@ -86,11 +86,19 @@ def adjust_tracks(file_path, dry_run=False):
 		log(f"No tracks found for file: {file_path}")
 		return False
 
-	commands = ["mkvmerge", "-o", f"{file_path}.temp.mkv"]
+	# Check if file already meets preferences
+	default_audio = next((track for track in tracks if track["type"] == "audio" and track.get("properties", {}).get("default_track", 0) == 1), None)
+	default_subtitle = next((track for track in tracks if track["type"] == "subtitles" and track.get("properties", {}).get("default_track", 0) == 1), None)
 
-	# Find the best matching audio and subtitle tracks
 	best_audio_track = find_best_audio_track(tracks, AUDIO_PREFERRED_LANGUAGES)
 	best_subtitle_track = find_best_subtitle_track(tracks, SUBTITLE_PREFERRED_LANGUAGES, EXCLUDED_SUBTITLE_KEYWORDS, PREFERRED_SUBTITLE_KEYWORDS)
+
+	if (default_audio and best_audio_track and default_audio["id"] == best_audio_track["id"] and
+		default_subtitle and best_subtitle_track and default_subtitle["id"] == best_subtitle_track["id"]):
+		log(f"File will be skipped because both audio and subtitle tracks already meet preferences: {file_path}")
+		return False
+
+	commands = ["mkvmerge", "-o", f"{file_path}.temp.mkv"]
 
 	audio_changed = False
 	subtitle_changed = False
@@ -160,32 +168,39 @@ def process_directory(directory_path, dry_run=False):
 	"""Recursively process files in a directory with progress bar."""
 	files_adjusted = 0
 	files_skipped = 0
-
+	
 	files = [os.path.join(root, file) for root, _, files in os.walk(directory_path) for file in files if file.endswith(".mkv")]
-
+	
 	for file_path in tqdm(files, desc="Processing Files", unit="file"):
 		if is_processed(file_path):
 			log(f"Skipping already processed file: {file_path}")
 			files_skipped += 1
 			continue
-
-		result = adjust_tracks(file_path, dry_run=dry_run)
+			
+		# Process the file
+		result = adjust_tracks(file_path, dry_run)
 		if result:
-			files_adjusted += 1
+			_, audio_changed, subtitle_changed = result
+			if not audio_changed and not subtitle_changed:
+				log(f"File will be skipped because both audio and subtitle tracks already meet preferences: {file_path}")
+				files_skipped += 1
+			else:
+				files_adjusted += 1
 		else:
 			files_skipped += 1
+	
+	# Differentiate the messages based on dry-run vs. full-run mode
+	if dry_run:
+		log(f"Processing complete. Files that would be adjusted: {files_adjusted}, Files that would be skipped: {files_skipped}")
+	else:
+		log(f"Processing complete. Files adjusted: {files_adjusted}, Files skipped: {files_skipped}")
 
-	log_message = (f"Dry-run completed. {files_adjusted} files would be adjusted, {files_skipped} files would be skipped."
-				   if dry_run else
-				   f"Process completed. {files_adjusted} files adjusted, {files_skipped} files skipped.")
-	log(log_message)
 
-def main():
-	"""Main function to kick off the process."""
-	if not os.path.exists(INPUT_DIRECTORY):
-		log(f"Input directory {INPUT_DIRECTORY} not found. Exiting.")
-		return
-	process_directory(INPUT_DIRECTORY, dry_run=DRY_RUN)
-
+			
 if __name__ == "__main__":
-	main()
+	mode = "DRY-RUN" if DRY_RUN else "FULL RUN"
+	log(f"Starting MKV Optimizer in {mode} mode.")
+	process_directory(INPUT_DIRECTORY, DRY_RUN)
+	log("MKV Optimizer finished.")
+
+		   
