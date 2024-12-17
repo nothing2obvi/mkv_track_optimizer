@@ -168,6 +168,16 @@ PREFERRED_SUBTITLE_KEYWORDS = ["dialogue", "dialog"]  # Prefer tracks with these
 
 ---
 
+### **Language Codes**
+
+For configuring the audio and subtitle languages, refer to the [ISO 639-2 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes). Some common examples include:
+
+- "jpn": Japanese
+- "eng": English
+- "spa": Spanish
+
+---
+
 ## 6. Usage
 
 ### **Run the Script**
@@ -246,3 +256,11 @@ File has already been processed. Skipping...
 ```
 
 This message appears under the file header and clearly indicates that the script is skipping the file because it is listed in the processed log. This ensures efficiency by preventing redundant work.
+
+## 7. Let Me Know How it Goes!
+
+The script has worked really well for me, and I hope it works just as well for you. However, I completely understand if some adjustments might be needed for your specific use case. Feel free to fork the repository, tweak the code, and make any improvements that suit your needs.
+
+If you encounter any issues or have feature requests, let me know, and I might get around to working on them -- time and ChatGPT cooperation permitting. 🫠
+
+Hopefully, this script saves you some time and frustration with your media organization. Enjoy!
