@@ -256,7 +256,7 @@ File has already been processed. Skipping...
 ```
 
 This message appears under the file header and clearly indicates that the script is skipping the file because it is listed in the processed log. This ensures efficiency by preventing redundant work.
-<<<<<<< HEAD
+
 
 ## 7. Let Me Know How it Goes!
 
@@ -265,5 +265,4 @@ The script has worked really well for me, and I hope it works just as well for y
 If you encounter any issues or have feature requests, let me know, and I might get around to working on them -- time and ChatGPT cooperation permitting. 🫠
 
 Hopefully, this script saves you some time and frustration with your media organization. Enjoy!
-=======
->>>>>>> d7fd6a5 (Update README.md)
+
