@@ -1,3 +1,5 @@
+# MKV Track Optimizer
+
 **Customizable MKV audio and subtitle track selection with dry-run and full-run modes, comprehensive logging, and the ability to skip previously processed files on subsequent runs.**
 
 ---
@@ -20,7 +22,7 @@ Are you tired of switching audio or subtitle tracks every time you start a video
     - Automatically selects the best subtitle track based on your preferences:
         - A ranked list of subtitle languages.
         - Tracks with specific keywords (e.g., "dialogue") are prioritized.
-        - Tracks with unwanted keywords (e.g., "signs", "songs") are excluded.
+        - Tracks with unwanted keywords (e.g., "sign", "song") are excluded.
     - Marks the selected subtitle track as `default`.
     - Ensures all other subtitle tracks are explicitly marked as `not default`.
 - **Dry-Run Mode**:
@@ -155,7 +157,7 @@ AUDIO_PREFERRED_LANGUAGES = ["jpn", "kor", "tgl"]  # Ranked list of preferred au
 
 ```python
 SUBTITLE_PREFERRED_LANGUAGES = ["eng", "und", "rus"]  # Ranked list of subtitle languages
-EXCLUDED_SUBTITLE_KEYWORDS = ["sign", "signs", "song", "songs"]  # Exclude tracks with these keywords
+EXCLUDED_SUBTITLE_KEYWORDS = ["sign", "signs"]  # Exclude tracks with these keywords
 PREFERRED_SUBTITLE_KEYWORDS = ["dialogue", "dialog"]  # Prefer tracks with these keywords
 
 ```
@@ -163,6 +165,16 @@ PREFERRED_SUBTITLE_KEYWORDS = ["dialogue", "dialog"]  # Prefer tracks with these
 - **`SUBTITLE_PREFERRED_LANGUAGES`**: Ranked list of your preferred subtitle languages.
 - **`EXCLUDED_SUBTITLE_KEYWORDS`**: Tracks with these keywords in their titles will be ignored. Use `[]` if you have no exclusions.
 - **`PREFERRED_SUBTITLE_KEYWORDS`**: Keywords that will prioritize a subtitle track. Use `[]` if you have no preferences.
+
+---
+
+### **Language Codes**
+
+For configuring the audio and subtitle languages, refer to the [ISO 639-2 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes). Some common examples include:
+
+- "jpn": Japanese
+- "eng": English
+- "spa": Spanish
 
 ---
 
@@ -197,6 +209,7 @@ DRY_RUN = True
 
 ```
 
+
 **Output**:
 
 ```arduino
@@ -230,3 +243,24 @@ Subtitle Track 4 marked as not default.
 Done:
 
 ```
+
+### **Already Processed File**
+
+If the script encounters a file that has already been processed, the output would look like this:
+
+```
+-------------------------------
+Processing File: /path/to/your/media/Anime/Season 01/Episode01.mkv
+-------------------------------
+File has already been processed. Skipping...
+```
+
+This message appears under the file header and clearly indicates that the script is skipping the file because it is listed in the processed log. This ensures efficiency by preventing redundant work.
+
+## 7. Let Me Know How it Goes!
+
+The script has worked really well for me, and I hope it works just as well for you. However, I completely understand if some adjustments might be needed for your specific use case. Feel free to fork the repository, tweak the code, and make any improvements that suit your needs.
+
+If you encounter any issues or have feature requests, let me know, and I might get around to working on them -- time and ChatGPT cooperation permitting. 🫠
+
+Hopefully, this script saves you some time and frustration with your media organization. Enjoy!
