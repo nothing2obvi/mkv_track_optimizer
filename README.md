@@ -157,7 +157,7 @@ AUDIO_PREFERRED_LANGUAGES = ["jpn", "kor", "tgl"]  # Ranked list of preferred au
 
 ```python
 SUBTITLE_PREFERRED_LANGUAGES = ["eng", "und", "rus"]  # Ranked list of subtitle languages
-EXCLUDED_SUBTITLE_KEYWORDS = ["sign", "signs"]  # Exclude tracks with these keywords
+EXCLUDED_SUBTITLE_KEYWORDS = ["sign", "song"]  # Exclude tracks with these keywords
 PREFERRED_SUBTITLE_KEYWORDS = ["dialogue", "dialog"]  # Prefer tracks with these keywords
 
 ```
