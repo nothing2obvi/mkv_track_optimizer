@@ -12,9 +12,9 @@ LOG_FILE = os.path.join(LOG_DIRECTORY, "mkv_optimizer.log")  # Log file path
 PROCESSED_LOG = os.path.join(LOG_DIRECTORY, "processed_files.log")  # Processed files log path
 
 # Customizable settings
-AUDIO_PREFERRED_LANGUAGES = ["jpn", "kor", "tgl"]  # Ranked list of preferred audio languages (in order)
+AUDIO_PREFERRED_LANGUAGES = ["jpn", "kor", "tgl", "und"]  # Ranked list of preferred audio languages (in order)
 SUBTITLE_PREFERRED_LANGUAGES = ["eng", "und", "rus"]  # Ranked list of preferred subtitle languages (in order)
-EXCLUDED_SUBTITLE_KEYWORDS = ["sign", "signs", "song", "songs"]  # Keywords to exclude from default subtitles
+EXCLUDED_SUBTITLE_KEYWORDS = ["sign", "song"]  # Keywords to exclude from default subtitles
 PREFERRED_SUBTITLE_KEYWORDS = ["dialogue", "dialog"]  # Keywords to prefer in subtitle tracks
 
 # Make sure the log directory exists
@@ -199,8 +199,11 @@ def process_directory(directory_path, dry_run=False):
 			
 if __name__ == "__main__":
 	mode = "DRY-RUN" if DRY_RUN else "FULL RUN"
-	log(f"Starting MKV Optimizer in {mode} mode.")
+	log(f"Starting MKV Track Optimizer in {mode} mode.")
 	process_directory(INPUT_DIRECTORY, DRY_RUN)
-	log("MKV Optimizer finished.")
+	log("MKV Track Optimizer finished.")
+
+		   
+
 
 		   
